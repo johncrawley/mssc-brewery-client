@@ -17,7 +17,6 @@ public class BreweryClient {
 	public String apihost;
 	public final String BEER_PATH_V1 = "/api/v1/beer/"; // in theory should never change, so don't make it a property;
 	private final RestTemplate restTemplate;
-	private String beerPath;
 	
 	public BreweryClient(RestTemplateBuilder restTemplateBuilder) {
 		this.restTemplate = restTemplateBuilder.build();
@@ -28,7 +27,7 @@ public class BreweryClient {
 	}
 	
 	public URI saveNewBeer(BeerDto beerDto) {
-		return restTemplate.postForLocation(beerPath, beerDto);
+		return restTemplate.postForLocation(getUrl(), beerDto);
 	}
 	
 
@@ -40,16 +39,17 @@ public class BreweryClient {
 		restTemplate.delete(getUrlFor(uuid));
 	}
 	
-	private String getUrlFor(UUID uuid) {
-		return beerPath + uuid.toString();
-	}
 	
 	public void setApiHost(String apihost) {
 		this.apihost = apihost;
-
-		beerPath = apihost + BEER_PATH_V1;
-		System.out.println("beer path : " + beerPath);
 	}
 	
 
+	private String getUrl() {
+		return apihost + BEER_PATH_V1;
+	}
+	
+	private String getUrlFor(UUID uuid) {
+		return getUrl() + uuid.toString();
+	}
 }
