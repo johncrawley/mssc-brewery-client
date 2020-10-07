@@ -36,5 +36,18 @@ public class BreweryClientTest {
 
 		System.out.println("Saved beer URI:  " +  uri);
 	}
+
+	@Test
+	void updateBeer() {
+
+		String beerName = "new beer";
+		BeerDto beerDto = BeerDto.builder().beerName(beerName).build();
+		client.updateBeer(UUID.randomUUID(), beerDto);
+	}
+	
+	@Test
+	void deleteBeer() {
+		client.deleteBeer(UUID.randomUUID());
+	}
 	
 }
